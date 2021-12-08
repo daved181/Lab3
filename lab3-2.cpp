@@ -477,6 +477,20 @@ int main(int argc, char const *argv[])
   const float n = 1.0f;
   const float f = 100.0f;
 
+  glm::vec3 light_position[3] = {
+        {1.0f, 0.0f, -1.0f},
+        {0.0f, 1.0f, -1.0f},
+        {0.0f, 0.0f, -1.0f}
+  };
+  glm::vec3 light_colour[3] = {
+      {0.0f, 1.0f, 0.0f},
+      {1.0f, 0.0f, 0.0f},
+      {0.0f, 0.0f, 1.0f}
+  };
+
+  glUniform3fv(glGetUniformLocation(shader_program, "light_position"), 3, glm::value_ptr(*light_position));
+  glUniform3fv(glGetUniformLocation(shader_program, "light_colour"), 3, glm::value_ptr(*light_colour));
+
   while (!glfwWindowShouldClose(window))
   {
 
@@ -489,12 +503,14 @@ int main(int argc, char const *argv[])
       projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 1.0f, 100.0f);
 
       glm::mat4 model = glm::mat4(1.0f);
-      model = glm::rotate(model, glm::radians(g_rotation[0]), glm::vec3(1.0f, 0.0f, 0.0f));
-      model = glm::rotate(model, glm::radians(g_rotation[1]), glm::vec3(0.0f, 1.0f, 0.0f));
+      model = glm::rotate(model, glm::radians(g_rotation[1]), glm::vec3(1.0f, 0.0f, 0.0f));
+      model = glm::rotate(model, glm::radians(g_rotation[0]), glm::vec3(0.0f, 1.0f, 0.0f));
 
       glm::mat4 mvp = projection * view * model;
       glUniformMatrix4fv(glGetUniformLocation(shader_program, "mvp"), 1, GL_FALSE, glm::value_ptr(mvp));
 
+      glm::mat4 viewModel = view * model;
+      glUniformMatrix4fv(glGetUniformLocation(shader_program, "viewModel"), 1, GL_FALSE, glm::value_ptr(viewModel));
       // update other events like input handling 
       glfwPollEvents();
 

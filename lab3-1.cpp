@@ -460,6 +460,8 @@ int main(int argc, char const *argv[])
       glm::mat4 mvp = projection * view * model;
       glUniformMatrix4fv(glGetUniformLocation(shader_program, "mvp"), 1, GL_FALSE, glm::value_ptr(mvp));
 
+      glm::mat4 viewModel = view * model;
+      glUniformMatrix4fv(glGetUniformLocation(shader_program, "viewModel"), 1, GL_FALSE, glm::value_ptr(viewModel));
       // update other events like input handling 
       glfwPollEvents();
 
