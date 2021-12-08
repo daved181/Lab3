@@ -24,15 +24,15 @@ vec3 lambertian_brdf( vec3 in_direction, vec3 out_direction, vec3 normal )
 void main () {
   
   frag_colour = tex.rgb;
-  vec3 temp;
+  vec3 brdf;
   for (int l = 0; l < light_count; ++l )
   {
     // YOUR CODE GOES HERE
     // Implement Equation 1 from the lab instructions: (incoming light colour) * (brdf) * (cosine)
     //float cosine = max(0.0, dot(normalize(light_position[l] - position), normal));
 
-    temp += light_colour[l] * 5 * lambertian_brdf(light_position[l], position, normal) 
+    brdf += light_colour[l] * 5 * lambertian_brdf(light_position[l], position, normal) 
         *max(0.0, dot(normalize(light_position[l] - position), normal));
   }
-  frag_colour = r * tex.rgb + (1-r) * temp;
+  frag_colour = r * tex.rgb + (1-r) * brdf;
 };
