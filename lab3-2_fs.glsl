@@ -23,7 +23,6 @@ vec3 lambertian_brdf( vec3 in_direction, vec3 out_direction, vec3 normal )
 
 void main () {
   
-  frag_colour = tex.rgb;
   vec3 brdf;
   for (int l = 0; l < light_count; ++l )
   {
